@@ -1,0 +1,11 @@
+FROM alpine:edge
+
+EXPOSE 8012
+
+ADD Pushjet-Server-Api Pushjet-Server-Api
+WORKDIR Pushjet-Server-Api
+
+RUN apk update && apk add git py2-pip mariadb-client mariadb-client-libs mariadb-dev gcc python2-dev musl-dev g++
+RUN pip2 install -U -r requirements.txt
+
+CMD gunicorn application:app -b 0.0.0.0:8012

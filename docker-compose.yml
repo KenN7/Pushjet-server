@@ -1,0 +1,35 @@
+version: '3'
+
+volumes:
+  sock:
+
+services:
+  mysql:
+    image: yobasystems/alpine-mariadb
+    expose:
+      - "3306"
+    volumes:
+      - "/srv/pushjet/mysql:/var/lib/mysql"
+    restart: unless-stopped
+    env_file:
+      - .env
+  nginx:
+    build:
+      context: .
+      dockerfile: conf/Dockerfile.nginx
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - "/srv/pushjet/http:/srv/pushjet"
+    env_file:
+      - .env
+  pushjetapi:
+    build:
+      context: .
+      dockerfile: conf/Dockerfile.pushjetapi
+    restart: unless-stopped
+    volumes:
+      - "sock:/srv/sock"
+    env_file:
+      - .env
