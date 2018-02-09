@@ -10,6 +10,9 @@ services:
       - "3306"
     volumes:
       - "/srv/pushjet/mysql:/var/lib/mysql"
+    deploy:
+      restart_policy: 
+        condition: on-failure
     restart: unless-stopped
     env_file:
       - .env
@@ -17,6 +20,10 @@ services:
     build:
       context: .
       dockerfile: conf/Dockerfile.nginx
+    image: pushjetserver_nginx:latest
+    deploy:
+      restart_policy: 
+        condition: on-failure
     restart: unless-stopped
     ports:
       - "8000:8000"
@@ -28,6 +35,10 @@ services:
     build:
       context: .
       dockerfile: conf/Dockerfile.pushjetapi
+    image: pushjetserver_pushjetapi:latest
+    deploy:
+      restart_policy: 
+        condition: on-failure
     restart: unless-stopped
     volumes:
       - "sock:/srv/sock"

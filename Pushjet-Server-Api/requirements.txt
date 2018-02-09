@@ -1,7 +1,2 @@
-gunicorn==19.7.1
-mysql-python
-sqlalchemy
-flask
-flask-sqlalchemy
-pyzmq
-requests
+-r requirements-docker.txt
+mysql-python 

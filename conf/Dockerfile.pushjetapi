@@ -1,11 +1,25 @@
-FROM alpine:edge
+FROM alpine:latest
 
 EXPOSE 8012
 
 ADD Pushjet-Server-Api Pushjet-Server-Api
 WORKDIR Pushjet-Server-Api
 
-RUN apk update && apk add git py2-pip mariadb-client mariadb-client-libs mariadb-dev gcc python2-dev musl-dev g++
-RUN pip2 install -U -r requirements.txt
+RUN apk update && apk add --no-cache \
+    git \
+    py2-pip \
+    mariadb-client \
+    py-mysqldb \
+    gcc \
+    g++ \
+    python2-dev \
+    musl-dev \
+&& pip2 install -U -r requirements-docker.txt \
+&& apk del \
+    gcc \
+    g++ \
+    python2-dev \
+    musl-dev \
+&& apk add --no-cache libstdc++
 
 CMD gunicorn application:app -b 0.0.0.0:8012
