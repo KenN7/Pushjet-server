@@ -1,0 +1,10 @@
+FROM alpine:latest
+
+ADD Pushjet-pyServer-Broker Pushjet-pyServer-Broker
+WORKDIR Pushjet-pyServer-Broker
+
+RUN apk update && apk add --no-cache \
+    git \
+    py2-zmq
+
+CMD python2 broker.py

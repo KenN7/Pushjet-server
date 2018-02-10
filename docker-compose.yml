@@ -41,6 +41,31 @@ services:
         condition: on-failure
     restart: unless-stopped
     volumes:
-      - "sock:/srv/sock"
+      - "sock:/tmp/"
     env_file:
       - .env
+    depends_on:
+      - mysql
+  pushjetbroker:
+    build:
+      context: .
+      dockerfile: conf/Dockerfile.pushbroker
+    image: pushjetserver_pushjetbroker:latest
+    deploy:
+      restart_policy: 
+        condition: on-failure
+    restart: unless-stopped
+    volumes:
+      - "sock:/tmp/"
+  pushjetcons:
+    build:
+      context: .
+      dockerfile: conf/Dockerfile.pushcons
+    image: pushjetserver_pushjetcons:latest
+    deploy:
+      restart_policy: 
+        condition: on-failure
+    restart: unless-stopped
+    volumes:
+      - "sock:/tmp/"
+

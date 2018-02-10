@@ -1,0 +1,7 @@
+gunicorn==19.7.1
+sqlalchemy
+mysql-python
+flask
+flask-sqlalchemy
+pyzmq
+requests

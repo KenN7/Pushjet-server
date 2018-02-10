@@ -1,0 +1,17 @@
+FROM alpine:latest
+
+EXPOSE 8181
+
+ADD Pushjet-Connectors Pushjet-Connectors
+WORKDIR Pushjet-Connectors
+
+RUN apk update && apk add --no-cache \
+    git \
+    py2-pip \
+    py-twisted \
+    py2-requests \
+    py2-zmq \
+&& pip2 install -U --no-deps -r requirements-docker.txt \
+&& pip2 install -r requirements-docker.txt
+
+CMD python2 serverWebSocket.py -u 0.0.0.0 -a http://pushjetapi:8012
